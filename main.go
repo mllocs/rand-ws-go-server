@@ -12,7 +12,7 @@ func SourceHandler(w http.ResponseWriter, r *http.Request) {
   http.ServeFile(w, r, r.URL.Path[1:])
 }
 
-func copyServer(ws *websocket.Conn) {
+func serveRandom(ws *websocket.Conn) {
 
   for {
         
@@ -30,11 +30,11 @@ func copyServer(ws *websocket.Conn) {
 
 func main() {
 
-	log.Println("Start server...")
-	
-	http.HandleFunc("/", SourceHandler) 
-	http.Handle("/ws", websocket.Handler(copyServer))
-	
+  log.Println("Start server...")
+
+  http.HandleFunc("/", SourceHandler) 
+  http.Handle("/ws", websocket.Handler(serveRandom))
+
   err := http.ListenAndServe(":4000", nil)
   
   if err != nil {
